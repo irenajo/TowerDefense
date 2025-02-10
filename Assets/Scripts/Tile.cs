@@ -15,10 +15,9 @@ public class Tile : MonoBehaviour
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private GameObject _highlight;
 
-    [SerializeField] public bool _enemyTile;
-
     public void Init(bool isOffset)
     {
+        // Debug.Log("Text " + _offsetColor + " offset color " + _baseColor + " base color");
         _renderer.color = isOffset ? _offsetColor : _baseColor;
     }
 

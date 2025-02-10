@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class EnemyTile : Tile
+public class TurretTile : Tile
 {
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

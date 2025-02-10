@@ -13,7 +13,7 @@ public class Tank : MonoBehaviour
     [SerializeField] private int width = 100;
     [SerializeField] private int height = 100;
 
-    [SerializeField] private TileManager _tileManager;
+    [SerializeField] private GridManager _tileManager;
 
     [SerializeField] private Vector2 targetPosition = new Vector2(0, 0);
 
@@ -46,11 +46,12 @@ public class Tank : MonoBehaviour
 
     }
 
+    // LIST OF POSSIBLE MOVES, DESCENDING PRIORITY
     private List<Vector2> moves = new List<Vector2> {
-        new Vector2(0, 1),
-        new Vector2(1, 0),
-        new Vector2(0, -1),
-        new Vector2(-1, 0)
+        new Vector2(1, 0), // right
+        new Vector2(0, 1), // up
+        new Vector2(0, -1), // down
+        new Vector2(-1, 0) // left 
     };
 
     void Move()
@@ -59,12 +60,25 @@ public class Tank : MonoBehaviour
         {
             bool selected = false;
 
+            Debug.Log(start_x + " " + start_y);
             foreach (Vector2 move in moves)
             {
                 Vector2 targetPosition = new Vector2(start_x + move.x, start_y + move.y);
+                Debug.Log("Target position " + targetPosition);
                 Tile tile = _tileManager.GetTileAtPosition(targetPosition);
-                if (tile != null && tile._enemyTile)
+                if (tile != null)
                 {
+                    if (tile is TurretTile)
+                    {
+                        Debug.Log("Turret tile found");
+                        continue;
+                    }
+                    else if (tile is EnemyTile)
+                    {
+                        Debug.Log("Enemy tile found");
+                        continue;
+                    }
+
                     movingTowardsTile = tile;
                     start_x = (int)targetPosition.x;
                     start_y = (int)targetPosition.y;
@@ -76,7 +90,14 @@ public class Tank : MonoBehaviour
 
             if (!selected)
             {
-                Debug.Log("Tank is in fact not moving towards: " + movingTowardsTile.transform.position);
+                if (!movingTowardsTile)
+                {
+                    Debug.Log("Tank is not moving towards anything");
+                }
+                else
+                {
+                    Debug.Log("Tank is in fact not moving towards: " + movingTowardsTile.transform.position);
+                }
             }
 
             // special case ako ne nadjes prema kome ce da se pomeara[]
