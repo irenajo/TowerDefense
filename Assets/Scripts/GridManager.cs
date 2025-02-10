@@ -33,8 +33,7 @@ public class GridManager : MonoBehaviour
         // for each character in each line, depending on the character, generate the appropriate tile type 
 
         // Open test matrix directory, in the "Other" folder
-        // string path = "Assets/Other/test_matrix.txt";
-        string path = "Assets/Other/matrix_path.txt";
+        string path = "Assets/Other/test_matrix.txt";
         string[] lines = System.IO.File.ReadAllLines(path);
 
         _tiles = new Dictionary<Vector2, Tile>();
@@ -44,7 +43,7 @@ public class GridManager : MonoBehaviour
             for (int y = 0; y < _height; y++)
             {
                 // For each character in each line, depending on the character, generate the appropriate tile type
-                char tileType = lines[y][x];
+                char tileType = lines[_height - 1 - y][x];
                 Tile tilePrefabToUse;
 
                 switch (tileType)

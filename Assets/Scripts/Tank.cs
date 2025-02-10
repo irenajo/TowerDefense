@@ -66,19 +66,8 @@ public class Tank : MonoBehaviour
                 Vector2 targetPosition = new Vector2(start_x + move.x, start_y + move.y);
                 Debug.Log("Target position " + targetPosition);
                 Tile tile = _tileManager.GetTileAtPosition(targetPosition);
-                if (tile != null)
+                if (tile != null && tile is EnemyTile)
                 {
-                    if (tile is TurretTile)
-                    {
-                        Debug.Log("Turret tile found");
-                        continue;
-                    }
-                    else if (tile is EnemyTile)
-                    {
-                        Debug.Log("Enemy tile found");
-                        continue;
-                    }
-
                     movingTowardsTile = tile;
                     start_x = (int)targetPosition.x;
                     start_y = (int)targetPosition.y;
@@ -127,21 +116,21 @@ public class Tank : MonoBehaviour
 
         // sprite.size = new Vector2(width, height);
 
-        switch (currentState)
-        {
-            case TankState.Idle:
-                Debug.Log("Tank State: IDLE");
-                break;
-            case TankState.Moving:
-                Debug.Log("Tank State: MOVING");
-                break;
-            case TankState.Attacking:
-                Debug.Log("Tank State: ATTACKING");
-                break;
-            case TankState.Destroyed:
-                Debug.Log("Tank State: DESTROYED");
-                break;
-        }
+        // switch (currentState)
+        // {
+        //     case TankState.Idle:
+        //         Debug.Log("Tank State: IDLE");
+        //         break;
+        //     case TankState.Moving:
+        //         Debug.Log("Tank State: MOVING");
+        //         break;
+        //     case TankState.Attacking:
+        //         Debug.Log("Tank State: ATTACKING");
+        //         break;
+        //     case TankState.Destroyed:
+        //         Debug.Log("Tank State: DESTROYED");
+        //         break;
+        // }
 
     }
 

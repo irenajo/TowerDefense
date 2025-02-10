@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseColor: {r: 0.20392154, g: 0.8509804, b: 0.7738292, a: 1}
-  _offsetColor: {r: 0.15639006, g: 0.6412855, b: 0.7207546, a: 1}
+  _offsetColor: {r: 0.17517261, g: 0.6679245, b: 0.608197, a: 1}
   _renderer: {fileID: 1879608620441953590}
   _highlight: {fileID: 2731694028306407177}
 --- !u!61 &3263703302672434739
@@ -253,6 +253,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseColor: {r: 0.17380556, g: 0.89433956, b: 0.88726014, a: 1}
-  _offsetColor: {r: 0.2569669, g: 0.2778502, b: 0.7283019, a: 1}
+  _offsetColor: {r: 0.20416509, g: 0.6981132, b: 0.63824064, a: 1}
   _renderer: {fileID: 1879608620441953590}
   _highlight: {fileID: 2731694028306407177}
