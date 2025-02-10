@@ -99,9 +99,9 @@ GameObject:
   - component: {fileID: 1879608620441953590}
   - component: {fileID: -4638175610567821793}
   - component: {fileID: 3263703302672434739}
-  - component: {fileID: 1968625771704759655}
+  - component: {fileID: 8893154901557394544}
   m_Layer: 0
-  m_Name: EnemyTile
+  m_Name: TurretTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,7 +168,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.9169811, g: 0.8718025, b: 0.2058881, a: 1}
+  m_Color: {r: 0.083324976, g: 0.93962264, b: 0.8900735, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -190,8 +190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5687f20d370714c98184694db3fa7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseColor: {r: 0.8509804, g: 0.76841897, b: 0.20392154, a: 1}
-  _offsetColor: {r: 0.7660377, g: 0.6761199, b: 0.18355994, a: 1}
+  _baseColor: {r: 0.20392154, g: 0.8509804, b: 0.7738292, a: 1}
+  _offsetColor: {r: 0.15639006, g: 0.6412855, b: 0.7207546, a: 1}
   _renderer: {fileID: 1879608620441953590}
   _highlight: {fileID: 2731694028306407177}
 --- !u!61 &3263703302672434739
@@ -240,7 +240,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1968625771704759655
+--- !u!114 &8893154901557394544
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,10 +249,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4152157827384613361}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71c7702f844164041bb7a72ac5ad40be, type: 3}
+  m_Script: {fileID: 11500000, guid: 5cc43961fd8285c4691f28d1b41009dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseColor: {r: 0.830152, g: 0.87058824, b: 0.12941174, a: 1}
-  _offsetColor: {r: 0.5622641, g: 0.5131409, b: 0.13473117, a: 1}
+  _baseColor: {r: 0.17380556, g: 0.89433956, b: 0.88726014, a: 1}
+  _offsetColor: {r: 0.2569669, g: 0.2778502, b: 0.7283019, a: 1}
   _renderer: {fileID: 1879608620441953590}
   _highlight: {fileID: 2731694028306407177}

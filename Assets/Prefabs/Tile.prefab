@@ -189,10 +189,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5687f20d370714c98184694db3fa7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseColor: {r: 0.26625448, g: 0.8490566, b: 0.20425417, a: 1}
+  _baseColor: {r: 0.2673227, g: 0.8509804, b: 0.20392154, a: 1}
   _offsetColor: {r: 0.34409115, g: 0.7169812, b: 0.2807049, a: 1}
   _renderer: {fileID: 1879608620441953590}
   _highlight: {fileID: 2731694028306407177}
+  _enemyTile: 0
 --- !u!61 &3263703302672434739
 BoxCollider2D:
   m_ObjectHideFlags: 0

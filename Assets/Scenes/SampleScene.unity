@@ -17144,8 +17144,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1865322995
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -29456,7 +29456,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1807394087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35158,11 +35158,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1020361286383701019, guid: 2f4b9825a82233b49ab5077bc01a72a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1020361286383701019, guid: 2f4b9825a82233b49ab5077bc01a72a3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.48
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1020361286383701019, guid: 2f4b9825a82233b49ab5077bc01a72a3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -35289,6 +35289,14 @@ PrefabInstance:
       propertyPath: _cam
       value: 
       objectReference: {fileID: 519420032}
+    - target: {fileID: 4494966193778248194, guid: 9c93a3f0fd501d744b977bf56c33e9c8, type: 3}
+      propertyPath: _enemyTilePrefab
+      value: 
+      objectReference: {fileID: 1968625771704759655, guid: 030bd61ff2777164c93284b757857423, type: 3}
+    - target: {fileID: 4494966193778248194, guid: 9c93a3f0fd501d744b977bf56c33e9c8, type: 3}
+      propertyPath: _turretTilePrefab
+      value: 
+      objectReference: {fileID: 8893154901557394544, guid: 337f6974cf7c33c4aa72c9883f7586c1, type: 3}
     - target: {fileID: 5261125704078806632, guid: 9c93a3f0fd501d744b977bf56c33e9c8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.41112053
