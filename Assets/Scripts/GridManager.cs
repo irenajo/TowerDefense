@@ -23,9 +23,27 @@ public class GridManager : MonoBehaviour
 
     void Start()
     {
-        GenerateGrid();
+        GenerateGrid(); 
         Debug.Log(_tiles);
     }
+
+
+    Tile generateTile(int x, int y)
+    {
+        return Instantiate(_tilePrefab, new Vector3(x, y), Quaternion.identity);
+    }
+
+    Tile generateEnemyTile(int x, int y, Vector2 moveTo)
+    {
+        EnemyTile tile = Instantiate(_enemyTilePrefab, new Vector3(x, y), Quaternion.identity);
+        tile.setMoveTo(moveTo);
+        return tile;
+    }
+
+    Tile generateTurretTile(int x, int y){
+        return Instantiate(_turretTilePrefab, new Vector3(x,y), Quaternion.identity);
+    }
+
 
     void GenerateGrid()
     {
@@ -33,8 +51,15 @@ public class GridManager : MonoBehaviour
         // for each character in each line, depending on the character, generate the appropriate tile type 
 
         // Open test matrix directory, in the "Other" folder
-        string path = "Assets/Other/test_matrix.txt";
+        string path = "Assets/Other/spiral  .txt";
         string[] lines = System.IO.File.ReadAllLines(path);
+
+        Dictionary<char, Vector2> moveTo = new Dictionary<char, Vector2>{
+            { '>', new Vector2(1, 0) },
+            { '<', new Vector2(-1, 0) },
+            { '^', new Vector2(0, 1) },
+            { 'v', new Vector2(0, -1) }
+        }; //
 
         _tiles = new Dictionary<Vector2, Tile>();
         for (int x = 0; x < _width; x++)
@@ -44,28 +69,23 @@ public class GridManager : MonoBehaviour
             {
                 // For each character in each line, depending on the character, generate the appropriate tile type
                 char tileType = lines[_height - 1 - y][x];
-                Tile tilePrefabToUse;
+                Tile spawnedTile;
 
+                // Tile generation based on type
                 switch (tileType)
                 {
                     case '0':
-                        tilePrefabToUse = _turretTilePrefab;
+                        spawnedTile = generateTurretTile(x, y);
                         break;
-                    case '>':
-                        tilePrefabToUse = _enemyTilePrefab;
+                    case '>': case '^': case '<': case 'v':
+                        spawnedTile = generateEnemyTile(x, y, moveTo[tileType]);
                         break;
-                    // case '.':
                     default:
-                        tilePrefabToUse = _tilePrefab;
+                        spawnedTile = generateTile(x, y);
                         break;
                 }
-
-
-                // You can add more conditions here to choose different tile prefabs based on tileType
-
-                var spawnedTile = Instantiate(tilePrefabToUse, new Vector3(x, y), Quaternion.identity);
+                
                 spawnedTile.name = $"Tile {x} {y}";
-
                 var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
                 spawnedTile.Init(isOffset);
 
@@ -73,18 +93,21 @@ public class GridManager : MonoBehaviour
 
                 _tiles[new Vector2(x, y)] = spawnedTile;
 
-                Debug.Log(tilePrefabToUse);
+                // Debug.Log(tilePrefabToUse);
             }
         }
 
         _cam.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
     }
 
-    public Tile GetTileAtPosition(Vector2 pos)
+    public Tile GetTileAtPosition(int x, int y)
     {
+        Vector2 pos = new Vector2(x, y);
         Debug.Log(pos);
-        Debug.Log("Tile looking for: ", _tiles[pos]);
+        Debug.Log(_tiles);
+        // Debug.Log("Tile looking for: ", _tiles[pos]);
         if (_tiles.TryGetValue(pos, out var tile)) return tile;
+        Debug.Log("Tile not found");
         return null;
     }
 }
