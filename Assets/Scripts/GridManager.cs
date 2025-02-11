@@ -23,7 +23,7 @@ public class GridManager : MonoBehaviour
 
     void Start()
     {
-        GenerateGrid(); 
+        GenerateGrid();
         Debug.Log(_tiles);
     }
 
@@ -40,8 +40,9 @@ public class GridManager : MonoBehaviour
         return tile;
     }
 
-    Tile generateTurretTile(int x, int y){
-        return Instantiate(_turretTilePrefab, new Vector3(x,y), Quaternion.identity);
+    Tile generateTurretTile(int x, int y)
+    {
+        return Instantiate(_turretTilePrefab, new Vector3(x, y), Quaternion.identity);
     }
 
 
@@ -51,7 +52,7 @@ public class GridManager : MonoBehaviour
         // for each character in each line, depending on the character, generate the appropriate tile type 
 
         // Open test matrix directory, in the "Other" folder
-        string path = "Assets/Other/spiral  .txt";
+        string path = "Assets/Other/spiral.txt";
         string[] lines = System.IO.File.ReadAllLines(path);
 
         Dictionary<char, Vector2> moveTo = new Dictionary<char, Vector2>{
@@ -77,14 +78,17 @@ public class GridManager : MonoBehaviour
                     case '0':
                         spawnedTile = generateTurretTile(x, y);
                         break;
-                    case '>': case '^': case '<': case 'v':
+                    case '>':
+                    case '^':
+                    case '<':
+                    case 'v':
                         spawnedTile = generateEnemyTile(x, y, moveTo[tileType]);
                         break;
                     default:
                         spawnedTile = generateTile(x, y);
                         break;
                 }
-                
+
                 spawnedTile.name = $"Tile {x} {y}";
                 var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
                 spawnedTile.Init(isOffset);

@@ -5,11 +5,13 @@ public class EnemyTile : Tile
 
     private Vector2 MoveTo;
 
-    public void setMoveTo(Vector2 moveTo){
+    public void setMoveTo(Vector2 moveTo)
+    {
         MoveTo = moveTo;
     }
 
-    public Vector2 getMoveTo(){
+    public Vector2 getMoveTo()
+    {
         return MoveTo;
     }
 

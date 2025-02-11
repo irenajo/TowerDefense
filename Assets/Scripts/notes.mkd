@@ -1,0 +1,28 @@
+## ENEMY
+- health
+- speed
+- damage(to player)
+
+* Enemy(health, speed, damage)
+* Move()
+* TakeDamage(int amount)
+* Destroy()
+* DealDamage(Player player)
+
+
+Enemy: Tank
+Enemy: Soldier
+Enemy: Truck (idk)
+
+======
+
+## ENEMY SPAWNER
+- list of enemies (since some enemies can be killed first, out of order, i want to simply remove them from list)
+- array of arrays of enemies, count, cooldown -> for spawning WAVES
+
+
+* StartWave(int indexWave) -> spawns enemies from given wave (array of arrays), with cooldown between spawns.  **coroutines or deltatime?**
+
+* UpdateEnemies() -> moves, destroys, deals damage (so we iterate only once through the list? **can we change list while iterating it**)
+
+* GracePeriod() -> method that starts a timer between the spawning of waves, or perhaps the player starts the next wave on the click of a button??
