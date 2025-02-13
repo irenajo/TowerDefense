@@ -1,0 +1,55 @@
+## ENEMY
+- health
+- speed
+- damage(to player)
+
+* Enemy(health, speed, damage)
+* Move()
+* TakeDamage(int amount)
+* Destroy()
+* DealDamage(Player player)
+
+
+Enemy: Tank
+Enemy: Soldier
+Enemy: Truck (idk)
+
+======
+
+## ENEMY MANAGER
+- list of enemies (since some enemies can be killed first, out of order, i want to simply remove them from list)
+- array of arrays of enemies, count, cooldown -> for spawning WAVES
+- EnemySpawner objects which we can pass (pointers to) arrays to instantiate.
+
+
+* StartWave(int indexWave) -> spawns enemies from given wave (array of arrays), using EnemySpawners.  **coroutines or deltatime?**
+
+* UpdateEnemies() -> moves, destroys, deals damage (so we iterate only once through the list? **can we change list while iterating it**)
+
+* GracePeriod() -> method that starts a timer between the spawning of waves, or perhaps the player starts the next wave on the click of a button??
+
+
+## ENEMY SPAWNER -> has to work in UPDATE. 
+
+switch (waveRunning):
+{
+    // udje u telo te funkcije, proverava tajmere, spawnuje cudovista
+    // imati neki waveState/waveObject objekat gde pamtimo: do kog moba smo stigli s spawnovanjem, na kojem smo indeksu u nizu grupa za spawnovanje, itd.
+    // spawnWave(waveObject) -> vraca true/false, true ako je wave zavrsen, i tada restartujemo waveRunning na False.
+    // neka GameLogic skripta bi mogla da pokrece igricu: sa ucitavanjem levela, PUNIMO SPAWNERE koji su ASSIGNOVANI SCENI, a ti spawneri stvaraju objekte KAO DECU ENEMYMANAGER-A, koji ce za svakog neprijatelja da proveri de je i sta je.
+        // gameLogic bi trebalo da rukovodi spawnerima .
+}
+
+
+- memorizes which enemies to spawn and stuff?
+- the enemy manager should handle the enemy movement and damage/taken
+- **HOW TO INTRODUCE TURRET DAMAGE?**
+
+- SpawnEnemies(int wave)
+
+
+====================
+
+Instantiate -> copies from a serialized prefab => it has to have all values DEFINED ALREADY.  => I can't use a C# constructor
+    - Init() functions => defined and used when using Instantiate, called immediately after, mimicking constructors!
+
