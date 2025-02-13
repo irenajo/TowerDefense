@@ -62,7 +62,7 @@ public class GridManager : MonoBehaviour
         // for each character in each line, depending on the character, generate the appropriate tile type 
 
         // Open test matrix directory, in the "Other" folder
-        string path = "Assets/Other/spiral.txt";
+        string path = "Assets/Other/test_matrix.txt";
         string[] lines = System.IO.File.ReadAllLines(path);
 
         Dictionary<char, Vector2> moveTo = new Dictionary<char, Vector2>{
