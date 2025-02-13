@@ -29,7 +29,17 @@ Enemy: Truck (idk)
 * GracePeriod() -> method that starts a timer between the spawning of waves, or perhaps the player starts the next wave on the click of a button??
 
 
-## ENEMY SPAWNER
+## ENEMY SPAWNER -> has to work in UPDATE. 
+
+switch (waveRunning):
+{
+    // udje u telo te funkcije, proverava tajmere, spawnuje cudovista
+    // imati neki waveState/waveObject objekat gde pamtimo: do kog moba smo stigli s spawnovanjem, na kojem smo indeksu u nizu grupa za spawnovanje, itd.
+    // spawnWave(waveObject) -> vraca true/false, true ako je wave zavrsen, i tada restartujemo waveRunning na False.
+    // neka GameLogic skripta bi mogla da pokrece igricu: sa ucitavanjem levela, PUNIMO SPAWNERE koji su ASSIGNOVANI SCENI, a ti spawneri stvaraju objekte KAO DECU ENEMYMANAGER-A, koji ce za svakog neprijatelja da proveri de je i sta je.
+        // gameLogic bi trebalo da rukovodi spawnerima .
+}
+
 
 - memorizes which enemies to spawn and stuff?
 - the enemy manager should handle the enemy movement and damage/taken

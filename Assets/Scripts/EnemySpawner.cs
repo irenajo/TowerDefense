@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -11,8 +12,21 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GridManager _gridManager; // todo remove put in enemyManager
 
     [SerializeField] private GameObject _tankPrefab;
-    struct SpawnGroup
+
+    [ContextMenu("Set Wave ID to 0")]
+    public void SetWaveManually()
     {
+        waveState.setWaveId(0);
+    }
+
+    [ContextMenu("Start Wave")]
+    public void StartWaveManually()
+    {
+        waveState.startWave();
+    }
+
+
+    struct SpawnGroup{
         public GameObject enemyPrefab;
         public int amount;
         public float cooldownBetweenUnit;
@@ -27,83 +41,163 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    SpawnGroup[] testArray;
+    public class WaveState{
+        public int waveId;
+        public bool waveRunning;
+        public int currGroup;
+        public int currAmount;
+        public Timer groupTimer;
+        public Timer spawnTimer;
 
+        public bool waitForGroup;
+
+        public WaveState(){
+            this.waveId = -1;
+            this.waveRunning = false;
+            this.currGroup = 0;
+            this.currAmount = 0;
+            this.groupTimer = new Timer(0);
+            this.spawnTimer = new Timer(0);
+            this.waitForGroup = true;
+        }
+
+        public void startWave(){
+            this.waveRunning = true;
+        }
+        public void setWaveId(int waveId){
+            this.waveId = waveId;
+        }
+        public void endWave(){
+            this.waveRunning = false;
+            this.waveId = -1;
+        }
+    }
+
+    // SpawnGroup[] testArray;
+    public WaveState waveState;
+    SpawnGroup[][] waves;
 
     void Start()
     {
-        testArray = new SpawnGroup[]
+        waveState = new WaveState();
+        waves = new SpawnGroup[][]
+        {
+            new SpawnGroup[]
             {
-            new SpawnGroup(_tankPrefab, 5, 2.0f, 5.0f),
-            new SpawnGroup(_tankPrefab, 3, 2.0f, 6.0f),
-            new SpawnGroup(_tankPrefab, 4, 1.5f, 4.0f)
-            };
+                new SpawnGroup(_tankPrefab, 3, 1.0f, 3.0f),
+                new SpawnGroup(_tankPrefab, 2, 0.5f, 6.0f),
+                new SpawnGroup(_tankPrefab, 10, 0.1f, 3.0f)
+            },
+            new SpawnGroup[]
+            {
+                new SpawnGroup(_tankPrefab, 5, 2.0f, 5.0f),
+                new SpawnGroup(_tankPrefab, 3, 2.0f, 6.0f),
+                new SpawnGroup(_tankPrefab, 4, 1.5f, 4.0f)
+            }
+        };
 
-        Debug.LogWarning("testArray " + testArray[0].amount);
+        // testArray = new SpawnGroup[]
+        //     {
+        //     new SpawnGroup(_tankPrefab, 5, 2.0f, 5.0f),
+        //     new SpawnGroup(_tankPrefab, 3, 2.0f, 6.0f),
+        //     new SpawnGroup(_tankPrefab, 4, 1.5f, 4.0f)
+        //     };
+
+        Debug.LogWarning("waves " + waves[0][0].amount);
         // SpawnWave(0);
-        StartCoroutine(SpawnWaveCoroutine(0));
     }
 
 
     // generated code 
-    private int currentWave = 0;
-    private int currentGroup = 0;
-    private int currentEnemy = 0;
-    private Timer groupTimer;
-    private Timer spawnTimer;
+
 
     void Update()
     {
-        if (currentWave < testArray.Length)
-        {
-            if (groupTimer == null || groupTimer.Ready())
-            {
-                if (currentEnemy < testArray[currentGroup].amount)
-                {
-                    if (spawnTimer == null || spawnTimer.Ready())
-                    {
-                        SpawnEnemy(currentGroup, currentEnemy);
-                        currentEnemy++;
-                        spawnTimer = new Timer(testArray[currentGroup].cooldownBetweenUnit);
-                        spawnTimer.Start();
-                    }
-                    else
-                    {
-                        spawnTimer.Update();
-                    }
-                }
-                else
-                {
-                    currentGroup++;
-                    currentEnemy = 0;
-                    if (currentGroup < testArray.Length)
-                    {
-                        groupTimer = new Timer(testArray[currentGroup].cooldownBetweenSpawn);
-                        groupTimer.Start();
-                    }
-                    else
-                    {
-                        currentWave++;
-                        currentGroup = 0;
-                    }
-                }
-            }
-            else
-            {
-                groupTimer.Update();
-            }
+        if (waveState.waveRunning){
+            UpdateWave();
         }
+        else{
+            Debug.Log("No wave is running.");
+        }
+    }
+
+    void startWave(int waveId){
+        waveState.startWave();
+        waveState.setWaveId(waveId);
     }
 
     private void SpawnEnemy(int groupIndex, int enemyIndex)
     {
-        GameObject obj = Instantiate(testArray[groupIndex].enemyPrefab, transform.position, Quaternion.identity);
+        GameObject obj = Instantiate(waves[waveState.waveId][groupIndex].enemyPrefab, transform.position, Quaternion.identity);
         Enemy spawnedEnemy = obj.GetComponent<Tank>();
 
         spawnedEnemy.name = $"Enemy {groupIndex} {enemyIndex}";
         spawnedEnemy.transform.SetParent(_enemyManager.transform);
         spawnedEnemy.Init(_firstTilePosition, _gridManager);
         Debug.LogWarning("spawned enemy first position " + spawnedEnemy.startPosition);
+    }
+
+    public void UpdateWave(){
+
+        //not sure where to put this check
+        if(waveState.waveId < 0 || waveState.waveId > waves.Length - 1){
+            Debug.LogError("Wave " + waveState.waveId + " is running but does not exist.");
+        }
+
+        // Debug.Log("Wave " + waveState.waveId + " is running.");
+
+        var testArray = waves[waveState.waveId]; // array of groups to spawn in this wave
+
+        Debug.Log("wave " + waveState.waveId + " currgroup: " + waveState.currGroup + " currAmount: " + waveState.currAmount);
+        
+        if(waveState.waitForGroup){
+            if (waveState.groupTimer.Ready()){
+                waveState.waitForGroup = false;
+                waveState.spawnTimer.setCooldownAndRestart(testArray[waveState.currGroup].cooldownBetweenUnit);
+            }
+            else{
+                waveState.groupTimer.Update();
+            }
+            return;
+        }
+                
+        if (waveState.currGroup < testArray.Length)
+        {
+            if (waveState.currAmount < testArray[waveState.currGroup].amount)
+            {
+                if (waveState.spawnTimer.Ready())
+                {
+                    SpawnEnemy(waveState.currGroup, waveState.currAmount);
+                    waveState.currAmount++;
+                    Debug.Log("spawn");
+                }
+                else
+                {
+                    waveState.spawnTimer.Update();
+                    // if (waveState.spawnTimer != null) Debug.Log("spawnTimer " + waveState.spawnTimer.Read());  
+                }
+            }
+            else
+            {
+                float waitNext = testArray[waveState.currGroup].cooldownBetweenSpawn;
+                waveState.currGroup++;
+                waveState.currAmount = 0;
+                waveState.waitForGroup = true;
+                if (waveState.currGroup < testArray.Length)
+                {
+                    waveState.groupTimer.setCooldownAndRestart(waitNext);
+                    // waveState.groupTimer.Start();
+                    // waveState.spawnTimer.setCooldownAndRestart(testArray[waveState.currGroup].cooldownBetweenUnit);
+                }
+                Debug.Log("created new group timer");
+
+            }
+
+        }
+        else{
+            Debug.Log("Wave " + waveState.waveId + " has ended.");
+            waveState.endWave();
+        }
     }
 
     // public void SpawnWave(int wave)
