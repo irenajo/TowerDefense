@@ -21,9 +21,19 @@ public class GridManager : MonoBehaviour
 
     private Dictionary<Vector2, Tile> _tiles;
 
-    void Start()
+    // void Start()
+    // {
+    //     GenerateGrid();
+    //     Debug.Log(_tiles);
+    // }
+
+    void Awake()
     {
         GenerateGrid();
+    }
+
+    void Start()
+    {
         Debug.Log(_tiles);
     }
 
