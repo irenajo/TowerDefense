@@ -133,15 +133,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2760228378651700749, guid: d3097868352f122449972c63fe3aff4c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.4365552
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2760228378651700749, guid: d3097868352f122449972c63fe3aff4c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.06722307
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2760228378651700749, guid: d3097868352f122449972c63fe3aff4c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.004500015
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2760228378651700749, guid: d3097868352f122449972c63fe3aff4c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -612,7 +612,7 @@ Transform:
   m_GameObject: {fileID: 1920959421}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5634448, y: 4.932777, z: -0.004500015}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -634,15 +634,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2760228378651700749, guid: d3097868352f122449972c63fe3aff4c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.4365552
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2760228378651700749, guid: d3097868352f122449972c63fe3aff4c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.932777
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2760228378651700749, guid: d3097868352f122449972c63fe3aff4c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.004500015
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2760228378651700749, guid: d3097868352f122449972c63fe3aff4c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -713,6 +713,10 @@ PrefabInstance:
       propertyPath: _enemyTilePrefab
       value: 
       objectReference: {fileID: 1968625771704759655, guid: 030bd61ff2777164c93284b757857423, type: 3}
+    - target: {fileID: 4494966193778248194, guid: 9c93a3f0fd501d744b977bf56c33e9c8, type: 3}
+      propertyPath: _targetTilePrefab
+      value: 
+      objectReference: {fileID: 2598991218607846809, guid: 84f085231de3e9e4f82ddb753c49725a, type: 3}
     - target: {fileID: 4494966193778248194, guid: 9c93a3f0fd501d744b977bf56c33e9c8, type: 3}
       propertyPath: _turretTilePrefab
       value: 

@@ -28,28 +28,18 @@ Enemy: Truck (idk)
 
 * GracePeriod() -> method that starts a timer between the spawning of waves, or perhaps the player starts the next wave on the click of a button??
 
+## where to go from here?
 
-## ENEMY SPAWNER -> has to work in UPDATE. 
+- Enemy interface: TakeDamage(int), Destroy(),
 
-switch (waveRunning):
-{
-    // udje u telo te funkcije, proverava tajmere, spawnuje cudovista
-    // imati neki waveState/waveObject objekat gde pamtimo: do kog moba smo stigli s spawnovanjem, na kojem smo indeksu u nizu grupa za spawnovanje, itd.
-    // spawnWave(waveObject) -> vraca true/false, true ako je wave zavrsen, i tada restartujemo waveRunning na False.
-    // neka GameLogic skripta bi mogla da pokrece igricu: sa ucitavanjem levela, PUNIMO SPAWNERE koji su ASSIGNOVANI SCENI, a ti spawneri stvaraju objekte KAO DECU ENEMYMANAGER-A, koji ce za svakog neprijatelja da proveri de je i sta je.
-        // gameLogic bi trebalo da rukovodi spawnerima .
-}
+* TakeDamage(int) -> fetch the bullet object that entered our collisionBox, and read how much damage we should take!
 
+* Destroy() -> despawn tank... 
 
-- memorizes which enemies to spawn and stuff?
-- the enemy manager should handle the enemy movement and damage/taken
-- **HOW TO INTRODUCE TURRET DAMAGE?**
+- Enemy collisionBox -> so the turret can detect the Enemy and fire a shot, but also take damage if in contact with a bullet.
 
-- SpawnEnemies(int wave)
+- "Target" type tiles: if enemy reaches this tile, it gets destroyed, and deals damage to the player.
+- Make it so that the EnemyManager calls "move" on all of its children (enemies). 
 
 
-====================
-
-Instantiate -> copies from a serialized prefab => it has to have all values DEFINED ALREADY.  => I can't use a C# constructor
-    - Init() functions => defined and used when using Instantiate, called immediately after, mimicking constructors!
 

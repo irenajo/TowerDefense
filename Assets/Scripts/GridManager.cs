@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
@@ -12,6 +13,8 @@ public class GridManager : MonoBehaviour
     [SerializeField] private TurretTile _turretTilePrefab;
 
     [SerializeField] private EnemyTile _enemyTilePrefab;
+
+    [SerializeField] private TargetTile _targetTilePrefab;
 
     [SerializeField] private Transform _cam;
 
@@ -55,6 +58,10 @@ public class GridManager : MonoBehaviour
         return Instantiate(_turretTilePrefab, new Vector3(x, y), Quaternion.identity);
     }
 
+    Tile generateTargetTile(int x, int y){
+        return Instantiate(_targetTilePrefab, new Vector3(x, y), Quaternion.identity);
+    }
+
 
     void GenerateGrid()
     {
@@ -93,6 +100,9 @@ public class GridManager : MonoBehaviour
                     case '<':
                     case 'v':
                         spawnedTile = generateEnemyTile(x, y, moveTo[tileType]);
+                        break;
+                    case 'x':
+                        spawnedTile = generateTargetTile(x, y);
                         break;
                     default:
                         spawnedTile = generateTile(x, y);
