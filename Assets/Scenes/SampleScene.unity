@@ -494,6 +494,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdbc21f6b6a9eee458484fc97d8d8e7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1048449097
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1048449099}
+  - component: {fileID: 1048449098}
+  m_Layer: 0
+  m_Name: Shop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1048449098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048449097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46705ec47787adf42946d8f7a6615696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shopItems:
+  - {fileID: 11400000, guid: 02ba2ed7dc93ec0439af4985c17d1496, type: 2}
+  - {fileID: 11400000, guid: b719a668ca46df8429d86e38d08eb1b7, type: 2}
+  - {fileID: 11400000, guid: 454af46e5e99bf9469db5504d886f237, type: 2}
+  amountOfCoins: 4
+--- !u!4 &1048449099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048449097}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.0913653, y: -0.41037142, z: -0.0015759985}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1484951375
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,3 +782,4 @@ SceneRoots:
   - {fileID: 1400768419509230889}
   - {fileID: 1484951376}
   - {fileID: 1920959422}
+  - {fileID: 1048449099}
