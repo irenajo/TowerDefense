@@ -4,12 +4,11 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
 
-    // structure that contains enemyPrefab, amount of enemies, cooldown between each enemy instantiation and cooldown between the next unit spawn
     [SerializeField] private Vector2 _firstTilePosition;
 
     [SerializeField] private EnemyManager _enemyManager;
 
-    [SerializeField] private GridManager _gridManager; // todo remove put in enemyManager
+    [SerializeField] private GridManager _gridManager;
 
     [SerializeField] private GameObject _tankPrefab;
 
@@ -26,7 +25,11 @@ public class EnemySpawner : MonoBehaviour
     }
 
 
-    struct SpawnGroup{
+    /// <summary>
+    /// A structure that contains enemyPrefab, amount of enemies, cooldown between each enemy instantiation and cooldown between the next unit spawn
+    /// </summary>
+    struct SpawnGroup
+    {
         public GameObject enemyPrefab;
         public int amount;
         public float cooldownBetweenUnit;
@@ -41,7 +44,11 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    public class WaveState{
+    /// <summary>
+    /// A structure that explains the current state of the wave.
+    /// </summary>
+    public class WaveState
+    {
         public int waveId;
         public bool waveRunning;
         public int currGroup;
@@ -51,7 +58,8 @@ public class EnemySpawner : MonoBehaviour
 
         public bool waitForGroup;
 
-        public WaveState(){
+        public WaveState()
+        {
             this.waveId = -1;
             this.waveRunning = false;
             this.currGroup = 0;
@@ -61,22 +69,28 @@ public class EnemySpawner : MonoBehaviour
             this.waitForGroup = true;
         }
 
-        public void startWave(){
+        public void startWave()
+        {
             this.waveRunning = true;
         }
-        public void setWaveId(int waveId){
+        public void setWaveId(int waveId)
+        {
             this.waveId = waveId;
         }
-        public void endWave(){
+        public void endWave()
+        {
+            Debug.Log("Wave " + this.waveId + " ended.");
             this.waveRunning = false;
             this.waveId = -1;
         }
     }
 
-    // SpawnGroup[] testArray;
     public WaveState waveState;
     SpawnGroup[][] waves;
 
+    /// <summary>
+    /// Loads each of the waves with the appropriate spawn groups. Waves are 0-indexed.
+    /// </summary>
     void Start()
     {
         waveState = new WaveState();
@@ -96,15 +110,8 @@ public class EnemySpawner : MonoBehaviour
             }
         };
 
-        // testArray = new SpawnGroup[]
-        //     {
-        //     new SpawnGroup(_tankPrefab, 5, 2.0f, 5.0f),
-        //     new SpawnGroup(_tankPrefab, 3, 2.0f, 6.0f),
-        //     new SpawnGroup(_tankPrefab, 4, 1.5f, 4.0f)
-        //     };
-
         Debug.LogWarning("waves " + waves[0][0].amount);
-        // SpawnWave(0);
+
     }
 
 
@@ -113,19 +120,37 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        if (waveState.waveRunning){
+        if (waveState.waveRunning)
+        {
             UpdateWave();
         }
-        else{
-            Debug.Log("No wave is running.");
-        }
+        // else
+        // {
+        //     Debug.Log("No wave is running.");
+        // }
     }
 
-    void startWave(int waveId){
+    /// <summary>
+    /// Starts the wave with given id which has to be set before calling this function.
+    /// </summary>
+    /// <param name="waveId"></param>
+    void startWave(int waveId)
+    {
+        if (waveState.waveRunning)
+        {
+            Debug.LogError("Wave " + waveState.waveId + " is already running.");
+            return;
+        }
         waveState.startWave();
         waveState.setWaveId(waveId);
     }
 
+
+    /// <summary>
+    /// Spawns an enemy and adds it as a child to the enemyManager.
+    /// </summary>
+    /// <param name="groupIndex"></param>
+    /// <param name="enemyIndex"></param>
     private void SpawnEnemy(int groupIndex, int enemyIndex)
     {
         GameObject obj = Instantiate(waves[waveState.waveId][groupIndex].enemyPrefab, transform.position, Quaternion.identity);
@@ -138,39 +163,44 @@ public class EnemySpawner : MonoBehaviour
         Debug.LogWarning("spawned enemy first position " + spawnedEnemy.startPosition);
     }
 
-    public void UpdateWave(){
-
+    /// <summary>
+    /// If wave is running, this function regulates the waveState object and spawns enemies.
+    /// </summary>
+    public void UpdateWave()
+    {
         //not sure where to put this check
-        if(waveState.waveId < 0 || waveState.waveId > waves.Length - 1){
+        if (waveState.waveId < 0 || waveState.waveId > waves.Length - 1)
+        {
             Debug.LogError("Wave " + waveState.waveId + " is running but does not exist.");
         }
 
         // Debug.Log("Wave " + waveState.waveId + " is running.");
 
-        var testArray = waves[waveState.waveId]; // array of groups to spawn in this wave
+        var waveGroups = waves[waveState.waveId];
 
-        Debug.Log("wave " + waveState.waveId + " currgroup: " + waveState.currGroup + " currAmount: " + waveState.currAmount);
-        
-        if(waveState.waitForGroup){
-            if (waveState.groupTimer.Ready()){
-                waveState.waitForGroup = false;
-                waveState.spawnTimer.setCooldownAndRestart(testArray[waveState.currGroup].cooldownBetweenUnit);
-            }
-            else{
-                waveState.groupTimer.Update();
-            }
-            return;
-        }
-                
-        if (waveState.currGroup < testArray.Length)
+
+        if (waveState.currGroup < waveGroups.Length)
         {
-            if (waveState.currAmount < testArray[waveState.currGroup].amount)
+            if (waveState.waitForGroup)
+            {
+                if (waveState.groupTimer.Ready())
+                {
+                    waveState.waitForGroup = false;
+                    waveState.spawnTimer.setCooldownAndRestart(waveGroups[waveState.currGroup].cooldownBetweenUnit);
+                }
+                else
+                {
+                    waveState.groupTimer.Update();
+                }
+                return;
+            }
+
+            if (waveState.currAmount < waveGroups[waveState.currGroup].amount)
             {
                 if (waveState.spawnTimer.Ready())
                 {
                     SpawnEnemy(waveState.currGroup, waveState.currAmount);
                     waveState.currAmount++;
-                    Debug.Log("spawn");
                 }
                 else
                 {
@@ -180,37 +210,35 @@ public class EnemySpawner : MonoBehaviour
             }
             else
             {
-                float waitNext = testArray[waveState.currGroup].cooldownBetweenSpawn;
+                float waitNext = waveGroups[waveState.currGroup].cooldownBetweenSpawn;
                 waveState.currGroup++;
                 waveState.currAmount = 0;
                 waveState.waitForGroup = true;
-                if (waveState.currGroup < testArray.Length)
+                if (waveState.currGroup < waveGroups.Length)
                 {
                     waveState.groupTimer.setCooldownAndRestart(waitNext);
                     // waveState.groupTimer.Start();
-                    // waveState.spawnTimer.setCooldownAndRestart(testArray[waveState.currGroup].cooldownBetweenUnit);
+                    // waveState.spawnTimer.setCooldownAndRestart(waveGroups[waveState.currGroup].cooldownBetweenUnit);
                 }
-                Debug.Log("created new group timer");
-
             }
 
         }
-        else{
-            Debug.Log("Wave " + waveState.waveId + " has ended.");
+        else
+        {
             waveState.endWave();
         }
     }
 
     // public void SpawnWave(int wave)
     // {
-    //     for (int i = 0; i < 1; i++) // testArray.Length
+    //     for (int i = 0; i < 1; i++) // waveGroups.Length
     //     {
     //         // iterate through each spawn group in the wave, and after spawning the i-th group, wait for cooldownBetweenSpawn seconds.
-    //         Timer groupTimer = new Timer(testArray[i].cooldownBetweenUnit);
+    //         Timer groupTimer = new Timer(waveGroups[i].cooldownBetweenUnit);
     //         groupTimer.Start();
     //         Debug.LogWarning("timer " + groupTimer.Ready());
 
-    //         for (int j = 0; j < testArray[i].amount; j++)
+    //         for (int j = 0; j < waveGroups[i].amount; j++)
     //         {
     //             while (!groupTimer.Ready())
     //             {
@@ -219,7 +247,7 @@ public class EnemySpawner : MonoBehaviour
 
     //             // INSTANTIATE ENEMY, SET IT'S SPAWN POSITION AND TARGET, AND ADD IT TO THE ENEMYMANAGER AS ITS CHILD
 
-    //             GameObject obj = Instantiate(testArray[i].enemyPrefab, transform.position, Quaternion.identity); // would dis work? var?
+    //             GameObject obj = Instantiate(waveGroups[i].enemyPrefab, transform.position, Quaternion.identity); // would dis work? var?
     //             Enemy spawnedEnemy = obj.GetComponent<Tank>();
 
     //             // set parameters here! (target position!)
@@ -238,11 +266,11 @@ public class EnemySpawner : MonoBehaviour
 
     // private IEnumerator SpawnWaveCoroutine(int wave)
     // {
-    //     for (int i = 0; i < testArray.Length; i++)
+    //     for (int i = 0; i < waveGroups.Length; i++)
     //     {
-    //         for (int j = 0; j < testArray[i].amount; j++)
+    //         for (int j = 0; j < waveGroups[i].amount; j++)
     //         {
-    //             GameObject obj = Instantiate(testArray[i].enemyPrefab, transform.position, Quaternion.identity);
+    //             GameObject obj = Instantiate(waveGroups[i].enemyPrefab, transform.position, Quaternion.identity);
     //             Enemy spawnedEnemy = obj.GetComponent<Tank>();
 
     //             spawnedEnemy.name = $"Enemy {i} {j}";
@@ -250,9 +278,9 @@ public class EnemySpawner : MonoBehaviour
     //             spawnedEnemy.Init(_firstTilePosition, _gridManager);
     //             Debug.LogWarning("spawned enemy first position " + spawnedEnemy.startPosition);
 
-    //             yield return new WaitForSeconds(testArray[i].cooldownBetweenUnit);
+    //             yield return new WaitForSeconds(waveGroups[i].cooldownBetweenUnit);
     //         }
-    //         yield return new WaitForSeconds(testArray[i].cooldownBetweenSpawn);
+    //         yield return new WaitForSeconds(waveGroups[i].cooldownBetweenSpawn);
     //     }
     // }
 }

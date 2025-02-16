@@ -24,22 +24,16 @@ public class GridManager : MonoBehaviour
 
     private Dictionary<Vector2, Tile> _tiles;
 
-    // void Start()
-    // {
-    //     GenerateGrid();
-    //     Debug.Log(_tiles);
-    // }
+    void Start()
+    {
+        GenerateGrid();
+        // Debug.Log(_tiles);
+    }
 
     void Awake()
     {
         GenerateGrid();
     }
-
-    void Start()
-    {
-        Debug.Log(_tiles);
-    }
-
 
     Tile generateTile(int x, int y)
     {
@@ -58,7 +52,8 @@ public class GridManager : MonoBehaviour
         return Instantiate(_turretTilePrefab, new Vector3(x, y), Quaternion.identity);
     }
 
-    Tile generateTargetTile(int x, int y){
+    Tile generateTargetTile(int x, int y)
+    {
         return Instantiate(_targetTilePrefab, new Vector3(x, y), Quaternion.identity);
     }
 
@@ -127,8 +122,6 @@ public class GridManager : MonoBehaviour
     public Tile GetTileAtPosition(int x, int y)
     {
         Vector2 pos = new Vector2(x, y);
-        Debug.Log(pos);
-        Debug.Log(_tiles);
         // Debug.Log("Tile looking for: ", _tiles[pos]);
         if (_tiles.TryGetValue(pos, out var tile)) return tile;
         Debug.Log("Tile not found");

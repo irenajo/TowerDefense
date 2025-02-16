@@ -30,16 +30,23 @@ Enemy: Truck (idk)
 
 ## where to go from here?
 
-- Enemy interface: TakeDamage(int), Destroy(),
-
 * TakeDamage(int) -> fetch the bullet object that entered our collisionBox, and read how much damage we should take!
 
 * Destroy() -> despawn tank... 
 
 - Enemy collisionBox -> so the turret can detect the Enemy and fire a shot, but also take damage if in contact with a bullet.
 
-- "Target" type tiles: if enemy reaches this tile, it gets destroyed, and deals damage to the player.
-- Make it so that the EnemyManager calls "move" on all of its children (enemies). 
 
 
+## ENEMY SPAWNER INTERFACE
+
+setWave(int)
+
+startWave()
+
+endWave()
+
+isWaveCompleted()
+
+isWaveRunning()
 
