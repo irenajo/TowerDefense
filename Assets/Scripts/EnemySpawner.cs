@@ -134,6 +134,7 @@ public class EnemySpawner : MonoBehaviour
         spawnedEnemy.name = $"Enemy {groupIndex} {enemyIndex}";
         spawnedEnemy.transform.SetParent(_enemyManager.transform);
         spawnedEnemy.Init(_firstTilePosition, _gridManager);
+        _enemyManager.AddEnemy(spawnedEnemy);
         Debug.LogWarning("spawned enemy first position " + spawnedEnemy.startPosition);
     }
 

@@ -97,10 +97,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6232184705469676462}
   - component: {fileID: 1879608620441953590}
-  - component: {fileID: -4638175610567821793}
   - component: {fileID: 3263703302672434739}
+  - component: {fileID: 2598991218607846809}
   m_Layer: 0
-  m_Name: Tile
+  m_Name: TargetTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,7 +167,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.6025185, g: 0.9339623, b: 0.16300285, a: 1}
+  m_Color: {r: 0.5647059, g: 0.078431375, b: 0.08627451, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -177,22 +177,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-4638175610567821793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4152157827384613361}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b5687f20d370714c98184694db3fa7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _baseColor: {r: 0.2673227, g: 0.8509804, b: 0.20392154, a: 1}
-  _offsetColor: {r: 0.34409115, g: 0.7169812, b: 0.2807049, a: 1}
-  _renderer: {fileID: 1879608620441953590}
-  _highlight: {fileID: 2731694028306407177}
 --- !u!61 &3263703302672434739
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -239,3 +223,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2598991218607846809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4152157827384613361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1896c6a95b5ba034bbd0d4dc26c1da43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _baseColor: {r: 0.735849, g: 0.05900677, b: 0.06992357, a: 1}
+  _offsetColor: {r: 0.5647059, g: 0.078431375, b: 0.08627451, a: 1}
+  _renderer: {fileID: 1879608620441953590}
+  _highlight: {fileID: 2731694028306407177}

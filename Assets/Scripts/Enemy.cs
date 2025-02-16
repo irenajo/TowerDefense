@@ -29,6 +29,7 @@ public abstract class Enemy : MonoBehaviour
         MovingStart,
         Idle,
         Moving,
+        AtTarget,
         Destroyed
     }
 
@@ -73,7 +74,23 @@ public abstract class Enemy : MonoBehaviour
 
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Start is called once before the first execution of Update after the MonoBehaviour is 
+    
+    public bool isAtTarget(){
+        return currentState == EnemyState.AtTarget;
+    }
+
+    public bool isDestroyed(){
+        return currentState == EnemyState.Destroyed;
+    }
+
+    public void TakeDamage(int damage){
+        health -= damage;
+        if (health <= 0){
+            currentState = EnemyState.Destroyed;
+        }
+    }
+
     void Start()
     {
         // TODO check if null ???
@@ -100,11 +117,11 @@ public abstract class Enemy : MonoBehaviour
         // currentTile = (EnemyTile)getTile;
     }
 
-    void Move()
+    //todo -> friend or something? this should be private.
+    public void Move()
     {
         if (currentState == EnemyState.MovingStart)
         {
-
             transform.position = Vector2.MoveTowards(transform.position, startPosition, speed * Time.deltaTime);
             Debug.LogWarning("Current position: " + transform.position.x + " " + transform.position.y);
 
@@ -144,7 +161,12 @@ public abstract class Enemy : MonoBehaviour
             bool selected = false;
 
             Debug.Log(start_x + " " + start_y);
-            if (nextTile != null && nextTile is EnemyTile)
+            if (nextTile == null){
+                Debug.Log("Didn't find a tile.");
+                return;
+            }
+
+            if (nextTile is EnemyTile)
             {
                 // currentTile = (EnemyTile)nextTile;
                 movingTowardsTile = nextTile;
@@ -153,7 +175,14 @@ public abstract class Enemy : MonoBehaviour
                 currentState = EnemyState.Moving;
                 selected = true;
             }
+            else if(nextTile is TargetTile)
+            {
+                Debug.Log("Enemy reached target tile");
+                currentState = EnemyState.AtTarget;
+                selected = true;
+            }
 
+            // debug
             if (!selected)
             {
                 if (!movingTowardsTile)
@@ -197,10 +226,9 @@ public abstract class Enemy : MonoBehaviour
             }
         }
     }
-    // Update is called once per frame
     void Update()
     {
-        Move();
+        // Move();
 
         // SpriteRenderer sprite = GetComponent<SpriteRenderer>();
 
