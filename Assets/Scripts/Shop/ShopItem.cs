@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Scriptable object to describe a purchasable shop item
+/// Scriptable object to describe a purchasable shop item.
 /// </summary>
 [CreateAssetMenu(fileName = "ShopItem", menuName = "Shop/ShopItem")]
 public class ShopItem : ScriptableObject

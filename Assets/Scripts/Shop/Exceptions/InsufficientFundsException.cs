@@ -1,5 +1,8 @@
 using System;
 
+/// <summary>
+/// Exception class for signaling insufficient funds.
+/// </summary>
 public class InsufficientFundsException : Exception
 {
     public uint CostOfItem { get; private set; }

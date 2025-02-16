@@ -3,6 +3,9 @@ using UnityEditor;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
+/// <summary>
+/// Debug class that adds debugging capabilities to the shop script UI.
+/// </summary>
 [CustomEditor(typeof(Shop))]
 public class ShopDebug : Editor
 {
