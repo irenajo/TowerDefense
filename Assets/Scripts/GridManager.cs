@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
@@ -13,6 +14,8 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private EnemyTile _enemyTilePrefab;
 
+    [SerializeField] private TargetTile _targetTilePrefab;
+
     [SerializeField] private Transform _cam;
 
     [SerializeField] private UnityEngine.GameObject _gridManager;
@@ -21,22 +24,16 @@ public class GridManager : MonoBehaviour
 
     private Dictionary<Vector2, Tile> _tiles;
 
-    // void Start()
-    // {
-    //     GenerateGrid();
-    //     Debug.Log(_tiles);
-    // }
+    void Start()
+    {
+        GenerateGrid();
+        // Debug.Log(_tiles);
+    }
 
     void Awake()
     {
         GenerateGrid();
     }
-
-    void Start()
-    {
-        Debug.Log(_tiles);
-    }
-
 
     Tile generateTile(int x, int y)
     {
@@ -53,6 +50,11 @@ public class GridManager : MonoBehaviour
     Tile generateTurretTile(int x, int y)
     {
         return Instantiate(_turretTilePrefab, new Vector3(x, y), Quaternion.identity);
+    }
+
+    Tile generateTargetTile(int x, int y)
+    {
+        return Instantiate(_targetTilePrefab, new Vector3(x, y), Quaternion.identity);
     }
 
 
@@ -94,6 +96,9 @@ public class GridManager : MonoBehaviour
                     case 'v':
                         spawnedTile = generateEnemyTile(x, y, moveTo[tileType]);
                         break;
+                    case 'x':
+                        spawnedTile = generateTargetTile(x, y);
+                        break;
                     default:
                         spawnedTile = generateTile(x, y);
                         break;
@@ -117,8 +122,6 @@ public class GridManager : MonoBehaviour
     public Tile GetTileAtPosition(int x, int y)
     {
         Vector2 pos = new Vector2(x, y);
-        Debug.Log(pos);
-        Debug.Log(_tiles);
         // Debug.Log("Tile looking for: ", _tiles[pos]);
         if (_tiles.TryGetValue(pos, out var tile)) return tile;
         Debug.Log("Tile not found");
