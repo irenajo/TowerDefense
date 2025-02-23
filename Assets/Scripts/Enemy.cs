@@ -10,7 +10,9 @@ public abstract class Enemy : MonoBehaviour
 
     [SerializeField] private int health; // = 100;
     [SerializeField] private float speed; //= 5.0f;
-    [SerializeField] private int damageToObject; // = 10;
+    [SerializeField] private int damageToPlayer; // = 10;
+
+    [SerializeField] private int coinsWorth; // = 10;
     [SerializeField] private int width; //= 100;
     [SerializeField] private int height; // = 100;
 
@@ -42,17 +44,19 @@ public abstract class Enemy : MonoBehaviour
         this.speed = speed;
         this.width = width;
         this.height = height;
-        this.damageToObject = 5;
+        this.damageToPlayer = 5;
         this.health = 100;
+        this.coinsWorth = 2;
     }
 
-    public Enemy(int speed, int width, int height, int damage, int health)
+    public Enemy(int speed, int width, int height, int damage, int health, int coinsWorth)
     {
         this.speed = speed;
         this.width = width;
         this.height = height;
-        this.damageToObject = damage;
+        this.damageToPlayer = damage;
         this.health = health;
+        this.coinsWorth = coinsWorth;
     }
 
     /// <summary>
@@ -84,21 +88,6 @@ public abstract class Enemy : MonoBehaviour
         Move();
     }
 
-    private void OnDestroy()
-    {
-        // give money to enemy
-    }
-
-    public bool isAtTarget()
-    {
-        return currentState == EnemyState.AtTarget;
-    }
-
-    public bool isDestroyed()
-    {
-        return currentState == EnemyState.Destroyed;
-    }
-
     /// <summary>
     /// TO IMPLEMENT: If a Weapon hits the enemy, the enemy takes damage.
     /// </summary>
@@ -125,11 +114,9 @@ public abstract class Enemy : MonoBehaviour
     void Start()
     {
         enemyCollider = GetComponent<BoxCollider2D>();
-
-        enemyCollider.size = new Vector2(width, height);
-
         SpriteRenderer sprite = GetComponent<SpriteRenderer>();
 
+        enemyCollider.size = new Vector2(width, height);
         sprite.size = new Vector2(width, height);
     }
 
@@ -165,10 +152,20 @@ public abstract class Enemy : MonoBehaviour
             }
         }
 
-        if (currentState == EnemyState.AtTarget || currentState == EnemyState.Destroyed)
+        if (currentState == EnemyState.AtTarget)
         {
+            EventBus.Instance.PlayerDamaged(damageToPlayer); //random coins for now, TODO move to each enemy!
             Destroy(gameObject);
-            // Debug.Log("Enemy reached target tile");
+            Debug.Log("Enemy reached target tile");
+            return;
+        }
+
+        if (currentState == EnemyState.Destroyed)
+        {
+            EventBus.Instance.EnemyKilled(coinsWorth); //todo change to enemy value
+            Destroy(gameObject);
+            Debug.Log("Enemy destroyed");
+            return;
         }
 
 

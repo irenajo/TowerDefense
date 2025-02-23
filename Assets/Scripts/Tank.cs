@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Tank : Enemy
 {
-    Tank() : base(2, 100, 100)
+    Tank() : base(1, 100, 100)
     {
     }
 

@@ -3,6 +3,7 @@
     <ui:VisualElement name="Container" style="flex-grow: 1; flex-basis: auto;">
         <ui:Label text="WAVE: number" name="WaveText" class="text" />
         <ui:Label text="HEALTH: number&#10;" name="HealthText" class="text" />
+        <ui:Label text="COINS: number" name="CoinsText" class="text" />
         <ui:Button text="START WAVE" name="WaveButton" class="button" style="bottom: 0; position: absolute;" />
     </ui:VisualElement>
 </ui:UXML>

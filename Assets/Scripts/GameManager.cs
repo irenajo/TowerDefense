@@ -19,6 +19,16 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         enemySpawners = GetComponentsInChildren<EnemySpawner>();
+
+        EventBus.Instance.OnEnemyKilled += UpdateCoins;
+        EventBus.Instance.OnPlayerDamaged += UpdateHealth;
+
+    }
+
+    private void OnDisable()
+    {
+        EventBus.Instance.OnEnemyKilled -= UpdateCoins;
+        EventBus.Instance.OnPlayerDamaged -= UpdateHealth;
     }
 
 
@@ -28,6 +38,48 @@ public class GameManager : MonoBehaviour
         {
             spawner.startWave(waveNumber);
         }
+        EventBus.Instance.waveStart();
+        // waveNumber++;
+    }
+
+    public int GetHealth()
+    {
+        return playerHealth;
+    }
+
+    public int GetCoins()
+    {
+        return playerCoins;
+    }
+
+    public int GetWaveNumber()
+    {
+        return waveNumber;
+    }
+
+    void UpdateCoins(int coins)
+    {
+        if (playerCoins + coins < 0)
+        {
+            // insufficient funds, dont make purchase!
+            return;
+        }
+        playerCoins += coins;
+        // coinsLabel.text = "Coins: " + player.GetCoins();
+        EventBus.Instance.UpdateCoinsUI();
+
+    }
+
+    void UpdateHealth(int damage)
+    {
+        playerHealth -= damage;
+        if (playerHealth <= 0)
+        {
+            // Game Over
+        }
+        // healthLabel.text = "Health: " + player.GetHealth();
+        EventBus.Instance.UpdateHealthUI();
+
     }
 }
 
