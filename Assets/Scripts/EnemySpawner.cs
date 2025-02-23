@@ -6,7 +6,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private Vector2 _firstTilePosition;
 
-    [SerializeField] private EnemyManager _enemyManager;
+    // [SerializeField] private EnemyManager _enemyManager;
 
     [SerializeField] private GridManager _gridManager;
 
@@ -81,6 +81,10 @@ public class EnemySpawner : MonoBehaviour
         {
             Debug.Log("Wave " + this.waveId + " ended.");
             this.waveRunning = false;
+            this.currGroup = 0;
+            this.currAmount = 0;
+            this.groupTimer.setCooldownAndRestart(0);
+            this.waitForGroup = true;
             this.waveId = -1;
         }
     }
@@ -134,7 +138,7 @@ public class EnemySpawner : MonoBehaviour
     /// Starts the wave with given id which has to be set before calling this function.
     /// </summary>
     /// <param name="waveId"></param>
-    void startWave(int waveId)
+    public void startWave(int waveId)
     {
         if (waveState.waveRunning)
         {
@@ -157,10 +161,9 @@ public class EnemySpawner : MonoBehaviour
         Enemy spawnedEnemy = obj.GetComponent<Tank>();
 
         spawnedEnemy.name = $"Enemy {groupIndex} {enemyIndex}";
-        spawnedEnemy.transform.SetParent(_enemyManager.transform);
+        spawnedEnemy.transform.SetParent(this.transform);
         spawnedEnemy.Init(_firstTilePosition, _gridManager);
-        _enemyManager.AddEnemy(spawnedEnemy);
-        Debug.LogWarning("spawned enemy first position " + spawnedEnemy.startPosition);
+        // _enemyManager.AddEnemy(spawnedEnemy); MOZDA ZA STATISTIKU?
     }
 
     /// <summary>

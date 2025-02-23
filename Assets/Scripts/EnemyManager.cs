@@ -18,21 +18,21 @@ public class EnemyManager : MonoBehaviour
         enemies.Remove(enemy);
     }
 
-    void Update()
-    {
-        for (int i = enemies.Count - 1; i >= 0; i--)
-        {
-            enemies[i].Move();
+    // void Update()
+    // {
+    //     for (int i = enemies.Count - 1; i >= 0; i--)
+    //     {
+    //         enemies[i].Move();
 
-            if (enemies[i].isAtTarget() || enemies[i].isDestroyed())
-            {
-                if (enemies[i].isAtTarget())
-                {
-                    // player.takeDamage(enemies[i].damageToObject);
-                }
-                Destroy(enemies[i].gameObject);
-                enemies.RemoveAt(i);
-            }
-        }
-    }
+    //         if (enemies[i].isAtTarget() || enemies[i].isDestroyed())
+    //         {
+    //             if (enemies[i].isAtTarget())
+    //             {
+    //                 // player.takeDamage(enemies[i].damageToObject);
+    //             }
+    //             Destroy(enemies[i].gameObject);
+    //             enemies.RemoveAt(i);
+    //         }
+    //     }
+    // }
 }

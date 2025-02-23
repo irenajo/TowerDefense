@@ -1,33 +1,39 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class GameBehavior : MonoBehaviour
+public class UIScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
-
+    // UI Elements this script will modify the behavior of
     private UIDocument _document;
     private Button _waveButton;
 
+    private Label health;
+    private Label coins;
+
+
+    // Scripts
+    private GameManager gameManager;
+
+
+    // Sounds
     private AudioSource _buttonClick;
     void Start()
     {
-
+        gameManager = GetComponent<GameManager>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void Awake()
     {
         _document = GetComponent<UIDocument>();
         _waveButton = _document.rootVisualElement.Q<Button>("WaveButton");
+        health = _document.rootVisualElement.Q<Label>("WaveText");
+        coins = _document.rootVisualElement.Q<Label>("HealthText");
+
         _buttonClick = GetComponent<AudioSource>();
 
         _waveButton.RegisterCallback<ClickEvent>(OnAllButtonsClick);
+
 
     }
 
@@ -39,5 +45,6 @@ public class GameBehavior : MonoBehaviour
     private void OnAllButtonsClick(ClickEvent evt)
     {
         _buttonClick.Play();
+        gameManager.StartWave();
     }
 }

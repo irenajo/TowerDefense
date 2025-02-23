@@ -79,7 +79,15 @@ public abstract class Enemy : MonoBehaviour
 
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is 
+    private void Update()
+    {
+        Move();
+    }
+
+    private void OnDestroy()
+    {
+        // give money to enemy
+    }
 
     public bool isAtTarget()
     {
@@ -155,6 +163,12 @@ public abstract class Enemy : MonoBehaviour
                     currentTile = (EnemyTile)getTile;
                 }
             }
+        }
+
+        if (currentState == EnemyState.AtTarget || currentState == EnemyState.Destroyed)
+        {
+            Destroy(gameObject);
+            // Debug.Log("Enemy reached target tile");
         }
 
 
