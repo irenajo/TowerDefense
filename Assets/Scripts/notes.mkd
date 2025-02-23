@@ -1,13 +1,16 @@
+## EVENTS
+
+- ENEMY: DealDamageToPlayer, OnDestroyGiveMoney
+- gameMANAGER: changeWave
+ 
+
+
 ## ENEMY
 - health
 - speed
 - damage(to player)
 
-* Enemy(health, speed, damage)
-* Move()
-* TakeDamage(int amount)
-* Destroy()
-* DealDamage(Player player)
+-
 
 
 Enemy: Tank
