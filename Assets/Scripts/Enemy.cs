@@ -4,7 +4,7 @@ public abstract class Enemy : MonoBehaviour
 {
 
     // Objects
-    BoxCollider2D collider;
+    BoxCollider2D enemyCollider;
 
     // Parameters - Enemy
 
@@ -29,6 +29,7 @@ public abstract class Enemy : MonoBehaviour
         MovingStart,
         Idle,
         Moving,
+        AtTarget,
         Destroyed
     }
 
@@ -54,6 +55,11 @@ public abstract class Enemy : MonoBehaviour
         this.health = health;
     }
 
+    /// <summary>
+    /// Must be called after instantiating an enemy object. This sets the first file of the enemy path this enemy should follow.
+    /// </summary>
+    /// <param name="startPosition"></param>
+    /// <param name="_tileManager"></param>
     public void Init(Vector2 startPosition, GridManager _tileManager)
     {
         this._tileManager = _tileManager;
@@ -73,40 +79,70 @@ public abstract class Enemy : MonoBehaviour
 
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void Update()
+    {
+        Move();
+    }
+
+    private void OnDestroy()
+    {
+        // give money to enemy
+    }
+
+    public bool isAtTarget()
+    {
+        return currentState == EnemyState.AtTarget;
+    }
+
+    public bool isDestroyed()
+    {
+        return currentState == EnemyState.Destroyed;
+    }
+
+    /// <summary>
+    /// TO IMPLEMENT: If a Weapon hits the enemy, the enemy takes damage.
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Weapon weapon = other.GetComponent<Weapon>();
+        // if (weapon != null)  // If the object is a weapon that deals damage to enemy
+        // {
+        //     Debug.Log("A Weapon/Bullet object entered and dealt 5 damage!");
+        //     this.TakeDamage(5);
+        // }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            currentState = EnemyState.Destroyed;
+        }
+    }
+
     void Start()
     {
-        // TODO check if null ???
-        collider = GetComponent<BoxCollider2D>();
+        enemyCollider = GetComponent<BoxCollider2D>();
 
-        collider.size = new Vector2(width, height);
+        enemyCollider.size = new Vector2(width, height);
 
         SpriteRenderer sprite = GetComponent<SpriteRenderer>();
 
         sprite.size = new Vector2(width, height);
-
-        // SET STARTING TILE !!
-
-        // Tile getTile = _tileManager.GetTileAtPosition(start_x, start_y);
-        // if (getTile == null)
-        // {
-        //     Debug.Log("Starting tile is null");
-        // }
-        // if (getTile is not EnemyTile)
-        // {
-        //     Debug.Log("Starting tile is not an EnemyTile");
-        // }
-
-        // currentTile = (EnemyTile)getTile;
     }
 
-    void Move()
+    //todo -> friend or something? this should be private.
+    /// <summary>
+    /// If enemy is idle, locates the next tile to move to and sets the state to Moving. When enemy reaches movingTowardsTile, sets state to Idle.
+    /// </summary>
+    public void Move()
     {
         if (currentState == EnemyState.MovingStart)
         {
-
             transform.position = Vector2.MoveTowards(transform.position, startPosition, speed * Time.deltaTime);
-            Debug.LogWarning("Current position: " + transform.position.x + " " + transform.position.y);
+            // Debug.LogWarning("Current position: " + transform.position.x + " " + transform.position.y);
 
             if (transform.position.x == startPosition.x && transform.position.y == startPosition.y)
             {
@@ -129,22 +165,26 @@ public abstract class Enemy : MonoBehaviour
             }
         }
 
+        if (currentState == EnemyState.AtTarget || currentState == EnemyState.Destroyed)
+        {
+            Destroy(gameObject);
+            // Debug.Log("Enemy reached target tile");
+        }
+
 
         if (currentState == EnemyState.Idle)
         {
-            // EnemyTile currentTile = (EnemyTile)_tileManager.GetTileAtPosition(start_x, start_y);
-            // if (currentTile == null)
-            // {
-            //     Debug.Log("Current tile is null");
-            //     return;
-            // }
-
-            Debug.LogWarning(start_x + " " + (int)currentTile.getMoveTo().x + " " + start_y + " " + (int)currentTile.getMoveTo().y);
+            // Debug.LogWarning(start_x + " " + (int)currentTile.getMoveTo().x + " " + start_y + " " + (int)currentTile.getMoveTo().y);
             Tile nextTile = _tileManager.GetTileAtPosition(start_x + (int)currentTile.getMoveTo().x, start_y + (int)currentTile.getMoveTo().y);
             bool selected = false;
 
-            Debug.Log(start_x + " " + start_y);
-            if (nextTile != null && nextTile is EnemyTile)
+            if (nextTile == null)
+            {
+                Debug.Log("Didn't find a tile.");
+                return;
+            }
+
+            if (nextTile is EnemyTile)
             {
                 // currentTile = (EnemyTile)nextTile;
                 movingTowardsTile = nextTile;
@@ -153,7 +193,14 @@ public abstract class Enemy : MonoBehaviour
                 currentState = EnemyState.Moving;
                 selected = true;
             }
+            else if (nextTile is TargetTile)
+            {
+                Debug.Log("Enemy reached target tile");
+                currentState = EnemyState.AtTarget;
+                selected = true;
+            }
 
+            // debug
             if (!selected)
             {
                 if (!movingTowardsTile)
@@ -196,32 +243,6 @@ public abstract class Enemy : MonoBehaviour
                 }
             }
         }
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        Move();
-
-        // SpriteRenderer sprite = GetComponent<SpriteRenderer>();
-
-        // sprite.size = new Vector2(width, height);
-
-        // switch (currentState)
-        // {
-        //     case EnemyState.Idle:
-        //         Debug.Log("Tank State: IDLE");
-        //         break;
-        //     case EnemyState.Moving:
-        //         Debug.Log("Tank State: MOVING");
-        //         break;
-        //     case EnemyState.Attacking:
-        //         Debug.Log("Tank State: ATTACKING");
-        //         break;
-        //     case EnemyState.Destroyed:
-        //         Debug.Log("Tank State: DESTROYED");
-        //         break;
-        // }
-
     }
 
 }
